@@ -24,7 +24,7 @@ def show_movies():
 
     return render_template('all_movies.html', movies = movies)
 
-@app.route("/movie/<movie_id>")
+@app.route("/movies/<movie_id>")
 def show_movie_id(movie_id):
     """Show details of a movie."""
 
@@ -32,23 +32,36 @@ def show_movie_id(movie_id):
 
     return render_template("movie_details.html", movie = movie)
 
-# @app.route("/users")
-# def show_users():
-#     """Display user info"""
+@app.route("/users")
+def show_users():
+    """Display user info"""
 
-#     users = crud.get_users()
+    users = crud.get_users()
 
-#     return render_template("users.html", users = users)
+    return render_template("users.html", users = users)
 
 
-# @app.route("/movie/<user_id>")
-# def show_user_id():
-#     """Show details of a user"""
+@app.route("/users/<user_id>")
+def show_user_id(user_id):
+    """Show details of a user"""
 
-#     user = crud.get_user_by_id()
+    user = crud.get_user_by_id(user_id)
 
-#     return render_template("user.html", user = user)
+    return render_template("user_details.html", user = user)
 
+@app.route("/users", methods=['POST'])
+def register_user():
+    """Create new user."""
+
+    email = request.form.get("email")
+
+    user = crud.get_user_by_email(email)
+
+    if email == True:
+        print("That email exists. Try a different one!")
+    else:
+        crud.create_user(email, password)
+        print("Account created!")
 
 
 if __name__ == "__main__":
